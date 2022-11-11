@@ -46,7 +46,7 @@ class _Paginas extends StatelessWidget {
   }
 }
 
-class _NavegacionModel with ChangeNotifier {
+class _NavegacionModel extends ChangeNotifier {
   int _paginaActual = 0;
   final PageController _pageController = PageController(initialPage: 0);
   int get paginaActual => _paginaActual;
