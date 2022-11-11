@@ -1,27 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TabsPage extends StatelessWidget {
-   
   const TabsPage({Key? key}) : super(key: key);
-  
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _Paginas(),
-      bottomNavigationBar: const _Navegacion(),
+    return ChangeNotifierProvider(
+      create: (_) => _NavegacionModel(),
+      child: Scaffold(
+        body: _Paginas(),
+        bottomNavigationBar: _Navegacion(),
+      ),
     );
   }
 }
 
 class _Navegacion extends StatelessWidget {
-  const _Navegacion({
-    Key? key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    final navegacionModel = Provider.of<_NavegacionModel>(context);
     return BottomNavigationBar(
-      currentIndex: 0,
+      currentIndex: navegacionModel.paginaActual, 
+      onTap: (value) => navegacionModel.paginaActual = value, 
       items: const [
         BottomNavigationBarItem(label: 'Para ti', icon: Icon(Icons.person_outline)),
         BottomNavigationBarItem(label: 'Encabezados', icon: Icon(Icons.public)),
@@ -34,17 +35,24 @@ class _Paginas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageView(
-      // physics: const BouncingScrollPhysics(),
       physics: const NeverScrollableScrollPhysics(),
       children: [
         Container(
           color: Colors.red,
         ),
-
         Container(
           color: Colors.green,
         )
       ],
     );
+  }
+}
+
+class _NavegacionModel with ChangeNotifier {
+  int _paginaActual = 0;
+  int get paginaActual => _paginaActual;
+  set paginaActual(int valor) {
+    _paginaActual = valor;
+    notifyListeners();
   }
 }
