@@ -30,12 +30,9 @@ class _ListaCategorias extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              
-              _CategoryButton(categoria: categories[index]), 
-              
-              const SizedBox(height: 5), 
-              
-              Text('${ categoryName[0].toUpperCase()}${categoryName.substring(1)}')
+              _CategoryButton(categoria: categories[index]),
+              const SizedBox(height: 5),
+              Text('${categoryName[0].toUpperCase()}${categoryName.substring(1)}')
             ],
           ),
         );
@@ -53,7 +50,8 @@ class _CategoryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        
+        final newsService = Provider.of<NewsServices>(context, listen: false);
+        newsService.selectedCategory = categoria.name;
       },
       child: Container(
         width: 40,
