@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:news_provider/src/models/models.dart';
 
 class NewsServices extends ChangeNotifier {
@@ -24,6 +24,7 @@ class NewsServices extends ChangeNotifier {
     for (var item in categories) {
       categoryArticles[item.name] = [];
     }
+    getArticlesByCategory(_selectedCategory);
   }
 
   String get selectedCategory => _selectedCategory;
@@ -44,6 +45,8 @@ class NewsServices extends ChangeNotifier {
     return response.body;
   }
 
+  List<Article>? get getArticulosPorCategoria => categoryArticles[selectedCategory];
+
   getTopHeadlines() async {
     final jsonData = await _getJsonData('/v2/top-headlines');
     final newsResponse = newsResponseFromJson(jsonData);
@@ -52,7 +55,7 @@ class NewsServices extends ChangeNotifier {
   }
 
   getArticlesByCategory(String category) async {
-    if(categoryArticles[category]!.isNotEmpty){
+    if (categoryArticles[category]!.isNotEmpty) {
       return categoryArticles[category];
     }
     final jsonData = await _getJsonData('/v2/top-headlines', category: category);
